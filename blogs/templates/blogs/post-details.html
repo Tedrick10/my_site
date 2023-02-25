@@ -4,10 +4,24 @@
 {% block page_title %}This Post Title{% endblock %}
 
 {% block css_file %}
-    <link rel="stylesheet" href="{% static 'blogs/index.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/post.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/all-posts.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/post-details.css' %}" />
+    <style>
+        p {
+            color: black;
+        }
+    
+        img {
+            width: 100%;
+            height: 250px;
+        }
+    
+        @media only screen and (max-device-width: 480px) {
+            img {
+                width: 100%;
+                height: 40rem;
+            }
+        }
+       
+    </style>
 {% endblock css_file %}
 
 {% block content %}
@@ -19,67 +33,87 @@
         </div>
     {% endif %}
 
-    <section id="summary">
-        <h2>{{ post.title }}</h2>
-        <br/>
-        <div>
-            {% for tag in post_tags %}
-                <span class="tag">{{ tag.caption }}</span>
-            {% endfor %}
-        </div>
-        <div id="read-later">
-            <form method="POST" action="{% url 'read_later' %}">
+<div class="row" style="margin-top: 1rem;">
+    <div class="large-8 columns" role="content">
+        <article>
+            <div class="row">
+                <div class="large-6 columns">
+                    <img 
+                        class="thumbnail" 
+                        src="{{ post.image.url }}"
+                        alt="{{ post.title }}"
+                    />
+                </div>
+                <div class="large-6 columns">
+                    <h3 class="post-title">{{ post.title }}</h3>
+                    <h6 class="post-subtitle">Written by <a href="#">{{ post.author }}</a> on {{ post.date }}.</h6>
+                    <p class="post-content">{{ post.excerpt }}</p>
+                    <div class="expanded button-group">
+                        {% for tag in post_tags %}
+                            <a class="post-button expanded secondary button diabled" href="#" aria-disabled>
+                                <p class="post-subtitle" style="color: white;">{{ tag.caption }}</p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="expanded button-group">
+                        <form method="POST" action="{% url 'read_later' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{ post.id }}" />
+                            {% if saved_for_later %}
+                                <button class="post-button alert button expanded">
+                                    <p class="post-subtitle" style="color: white;">Remove from "Stored Posts"</p>
+                                </button>
+                            {% else %}
+                                <button class="post-button success button expanded">
+                                    <p class="post-subtitle" style="color: white;">Add to "Stored Posts"</p>
+                                </button>
+                                    
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <p class="post-content">{{ post.content }}</p>
+        </article>
+    </div>
+    <aside class="large-4 columns">
+        <section id="comment-form">
+            <h3 class="post-title">Your Comment</h3>
+            <form method="POST" action="{% url 'post_details' post.slug %}">
                 {% csrf_token %}
-                <input type="hidden" name="post_id" value="{{ post.id }}" />
-                <button>
-                    {% if saved_for_later %}
-                        Remove from "Stored Posts"
-                    {% else %}
-                        Add to "Stored Posts"
-                    {% endif %}
+                {% for form_field in comment_form %}
+                    <div class="form-control {% if form_field.errors %}invalid{% endif %}">
+                        {% comment %} {{ form_field.label_tag }} {% endcomment %}
+                        {{ form_field }}
+                        {{ form_field.errors    }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="submit button expanded post-button">
+                    <p class="post-subtitle" style="color: white;">Save Comment</p>
                 </button>
             </form>
-        </div>
-        <article>
-            <img 
-                {% comment %} src="{% static 'blogs/images/'|add:post.image_name %}" {% endcomment %}
-                src="{{ post.image.url }}"
-                alt="{{ post.title }}" 
-            />
-            <address>By <a href="mailto:{{ post.author.email_address }}">{{ post.author }}</a></address>
-            <div>
-                Last updated on <time>{{ post.date|date:"d M Y" }}</time>
+        </section>
+        <section>
+            <h3 class="post-title">All Comments</h3>
+            <div class="columns is-desktop" id="comments">
+                {% for comment in comments %}
+                    <div class="row">
+                        <div class="large-3 columns small-3">
+                            <img 
+                            class="comment-box-image"
+                            src="{{ post.image.url }}"
+                            alt="{{ post.title }}" />
+                        </div>
+                        <div class="large-9 columns small-9">
+                        <strong class="post-subtitle">{{ comment.user_name }}</strong> 
+                        <p class="post-subtitle">
+                            {{ comment.text }}
+                            {% comment %} {{ comment.text|linebreaks }} {% endcomment %}
+                        </div>
+                  </div>
+                {% endfor %}
             </div>
-        </article>
-    </section>
-
-    <main>
-        {{ post.content|linebreaks }}
-    </main>
-    
-    <section id="comments">
-        <ul>
-            {% for comment in comments %}
-                <li>
-                    <h2>{{ comment.user_name }}</h2>
-                    <p>{{ comment.text|linebreaks }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section id="comment-form">
-        <h2>Your Comment</h2>
-        <form method="POST" action="{% url 'post_details' post.slug %}">
-            {% csrf_token %}
-            {% for form_field in comment_form %}
-                <div class="form-control {% if form_field.errors %}invalid{% endif %}">
-                    {{ form_field.label_tag }}
-                    {{ form_field }}
-                    {{ form_field.errors    }}
-                </div>
-            {% endfor %}
-            <button type="submit">Save Comment</button>
-        </form>
-    </section>
+        </section>
+    </aside>
+</div>
 {% endblock %}

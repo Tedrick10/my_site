@@ -4,20 +4,137 @@
 <html>
     <head>
         <title>{% block page_title %}No Document{% endblock %}</title>
-        <link rel="stylesheet" href="{% static 'app.css' %}" />
+        <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+        <style>
+            img {
+                width: 100%;
+                height: 250px;
+            }
+            .comment-box-image {
+                position: relative;
+                overflow: hidden;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+            }
+
+            #comments {
+                border: 1px solid gray;
+                height: 300px;
+                overflow: auto;
+                margin-bottom: 50px;
+                padding-top:10px;
+                overflow-x: hidden;
+                word-wrap: break-word;
+            }
+
+            .post-button {
+                height: 3rem;
+                text-align: center;
+            }
+
+            .post-title {
+                color: black;
+            }
+            .banner-title {
+                color: black;
+                font-size: 3.5rem;
+                font-weight: bold;
+            }
+
+            .page-title {
+                color: black;
+                font-size: 2rem;
+                font-weight: bold;
+            }
+
+            @media only screen and (max-device-width: 480px) {
+                .banner-title {
+                    font-size: 3.5rem;
+                }
+                .banner-section {
+                    font-size: 2rem;
+                }
+                .page-title {
+                    color: black;
+                    font-size: 3.5rem;
+                    font-weight: bold;
+                }
+                .page-subtitle {
+                    color: gray;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                }
+
+                img {
+                    width: 100%;
+                    height: 40rem;
+                }
+
+                .post-title {
+                    color: black;
+                    font-size: 3rem;
+                }
+                .post-subtitle {
+                    font-size: 2.5rem;
+                }
+                .post-content {
+                    font-size: 2.5rem;
+                    color: gray;
+                }
+
+                .post-button {
+                    height: 7rem;
+                    text-align: center;
+                }
+                .comment-box-image {
+                    position: relative; 
+                    overflow: hidden; 
+                    border-radius: 50%; 
+                    width: 120px; 
+                    height: 120px;
+                }
+                #comments {
+                    border: 1px solid gray;
+                    height: 30rem;
+                    overflow: auto;
+                    margin-bottom: 1rem;
+                    padding-top: 1rem;
+                    overflow-x: hidden;
+                    word-wrap: break-word;
+                }
+                .control-label {
+                    font-size: 40px;
+                }
+                .form-username, .form-useremail {
+                    font-size: 40px;
+                    height: 5rem;
+                }
+                .form-textinput {
+                    font-size: 40px;
+                    height: 10rem;
+                }
+            }
+            
+        </style>
         {% block css_file %}{% endblock css_file %}
     </head>
 
     <body>
-        <header id="main-navigation">
-            <h1><a href="{% url 'index' %}">Thet Tun Kyaw's Blog</a></h1>
-            <nav>
-                <a href="{% url 'read_later' %}">Stored Posts</a>
-                <a href="{% url 'posts' %}">All Posts</a>
-            </nav>
-        </header>
+        <div class="top-bar">
+            <div class="top-bar-left">
+              <ul class="menu">
+                <li class="menu-text banner-title">
+                    <h1><a href="{% url 'index' %}">Nebwin's Blog</a></h1>
+                </li>
+                <li class="banner-section"><a href="{% url 'read_later' %}">Stored Posts</a></li>
+                <li class="banner-section"><a href="{% url 'posts' %}">All Posts</a></li>
+              </ul>
+            </div>
+          </div>
         {% block content %}
             <h2>There is no document in this page.</h2>
         {% endblock %}
+        
     </body>
 </html>

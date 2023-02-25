@@ -4,24 +4,28 @@
 {% block page_title %}My Stored Posts{% endblock page_title %}
 
 {% block css_file %}
-    <link rel="stylesheet" href="{% static 'blogs/index.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/post.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/all-posts.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/stored-posts.css' %}" />
 {% endblock css_file %}
 
 {% block content %}
-    <section id="stored-posts">
-        {% if not has_posts %}
-            <p>You didn't save any posts for later.</p>
-        {% endif %}
-        
-        <ul>
+    {% if not has_posts %}
+        <div class="callout large primary">
+            <div class="row column text-center">
+            <h1 class="banner-title">Nebwin's Blog</h1>
+            <h2 class="subheader page-subtitle">This is no stored post.</h2>
+            </div>
+        </div>
+    {% else %}
+        <div class="card large">
+            <div class="row column text-center">
+                <p class="page-title">Stored Posts</p>
+            </div>
+        </div>
+        <div class="row small-up-1 medium-up-1 large-up-3">
             {% for post in posts %}
-                <li>
-                    <a href="{% url 'post_details' post.slug %}">{{ post.title }}</a>
-                </li>
+            {% include 'blogs/includes/post.html' %}
             {% endfor %}
-        </ul>
-    </section>
+        </div>
+    {% endif %}
+    
+  
 {% endblock content %}

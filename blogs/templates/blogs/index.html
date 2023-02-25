@@ -4,33 +4,23 @@
 {% block page_title %}My Blog{% endblock %}
 
 {% block css_file %}
-    <link rel="stylesheet" href="{% static 'blogs/index.css' %}" />
-    <link rel="stylesheet" href="{% static 'blogs/post.css' %}" />
 {% endblock css_file %}
 
 {% block content %}
-
-    <section id="welcome">
-        <header>
-            <img src="{% static 'blogs/images/ttk.jpg' %}" alt="Thet Tun Kyaw - The Author Of This Blog" />
-            <h2>TTK's Blog</h2>
-        </header>
-        <p>Hello, I am Thet Tun Kyaw. I love to blog about tech and the world.</p>
-    </section>
-
-    <section id="latest-posts">
-        <h2>My Latest Thoughts</h2>
-
-        <ul>
-            {% for post in posts %}
-                {% include 'blogs/includes/post.html' %}
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section id="about">
-        <h2>What I Do</h2>
-        <p>I love programming, I love to help others and I enjoy exploring new technologies in general.</p>
-        <p>My goal is to keep on growing as a developer - and if I could help you do the same, I'd be very happy!</p>
-    </section>
-{% endblock %}
+    <div class="callout large primary">
+        <div class="row column text-center">
+          <h1 class="banner-title">Nebwin's Blog</h1>
+          <h2 class="subheader page-subtitle">This is the knowledge sharing blog.</h2>
+        </div>
+    </div>
+    <div class="card large">
+        <div class="row column text-center">
+            <p class="page-title">Latest Posts</p>
+        </div>
+    </div>
+    <div class="row small-up-1 medium-up-1 large-up-3">
+        {% for post in posts %}
+        {% include 'blogs/includes/post.html' %}
+        {% endfor %}
+    </div>
+{% endblock content %}

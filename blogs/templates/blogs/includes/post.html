@@ -1,17 +1,17 @@
 {% load static %}
 
-<li>
-    <article class="post">
-        <a href="{% url 'post_details' post.slug %}">
-            <img 
-                {% comment %} src="{% static 'blogs/images/'|add:post.image_name %}"  {% endcomment %}
-                src="{{ post.image.url }}"
-                alt="{{ post.title }}" 
-            />
-            <div class="post__content">
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.excerpt }}</p>
-            </div>
-        </a>
-    </article>
-</li> 
+{% block css_file %}
+{% endblock css_file %}
+
+<div class="column" >
+    <a href="{% url 'post_details' post.slug %}">
+        <div class="callout">
+            <p class="post-title">
+                {{ post.author }} | {{ post.date }}
+            </p>
+            <p><img src="{{ post.image.url }}" alt="{{ post.title }}" /></p>
+            <p class="lead post-title">{{ post.title }}</p>
+            <p class="subheader post-subtitle">{{ post.excerpt|truncatechars:120 }}</p>
+        </div>    
+    <a>
+</div>

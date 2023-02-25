@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from .models import Post, Comment
 from .forms import CommentForm
 from django.views.generic import ListView, DetailView
 from django.views import View
@@ -9,8 +9,9 @@ from django.urls import reverse
 # Create your views here.
 
 # def index(request):
-#     latest_posts = Post.objects.all().order_by("-date")[:3]
-#     return render(request, "blogs/index.html", { "posts": latest_posts })
+#     latest_posts = Post.objects.all().order_by("-date")
+#     comments = Comment.objects.all()
+#     return render(request, "blogs/index.html", { "posts": latest_posts, "comments": comments })
 
 class IndexView(ListView):
     template_name = "blogs/index.html"
@@ -20,7 +21,7 @@ class IndexView(ListView):
 
     def get_queryset(self):
         query = super().get_queryset()
-        data = query[:3]
+        data = query[:6]
         return data
     
 
