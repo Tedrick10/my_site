@@ -28,6 +28,10 @@
                 word-wrap: break-word;
             }
 
+            .post:hover {
+                background-color: #deeffc;
+            }
+
             .post-button {
                 height: 3rem;
                 text-align: center;
@@ -47,7 +51,75 @@
                 font-size: 2rem;
                 font-weight: bold;
             }
+            @media only screen and (min-device-width: 481px) and (max-device-width: 820px) {
+                .banner-title {
+                    font-size: 3.5rem;
+                }
+                .banner-section {
+                    font-size: 2rem;
+                }
+                .page-title {
+                    color: black;
+                    font-size: 3.5rem;
+                    font-weight: bold;
+                }
+                .page-subtitle {
+                    color: gray;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                }
+                img {
+                    width: 100%;
+                    height: 40rem;
+                }
 
+                .post-title {
+                    color: black;
+                    font-size: 2.5rem;
+                }
+                .post-subtitle {
+                    font-size: 2rem;
+                }
+                .post-content {
+                    font-size: 2.5rem;
+                    color: gray;
+                }
+
+                .post-button {
+                    height: 5rem;
+                    text-align: center;
+                }
+                .comment-box-image {
+                    position: relative; 
+                    overflow: hidden; 
+                    border-radius: 50%; 
+                    width: 120px; 
+                    height: 120px;
+                }
+                #comments {
+                    border: 1px solid gray;
+                    height: 30rem;
+                    overflow: auto;
+                    margin-bottom: 1rem;
+                    padding-top: 1rem;
+                    overflow-x: hidden;
+                    word-wrap: break-word;
+                }
+                .comment-section {
+                    margin: 1rem;
+                }
+                .control-label {
+                    font-size: 40px;
+                }
+                .form-username, .form-useremail {
+                    font-size: 40px;
+                    height: 5rem;
+                }
+                .form-textinput {
+                    font-size: 40px;
+                    height: 10rem;
+                }
+            }
             @media only screen and (max-device-width: 480px) {
                 .banner-title {
                     font-size: 3.5rem;
@@ -102,6 +174,9 @@
                     padding-top: 1rem;
                     overflow-x: hidden;
                     word-wrap: break-word;
+                }
+                .comment-section {
+                    margin: 1rem;
                 }
                 .control-label {
                     font-size: 40px;
