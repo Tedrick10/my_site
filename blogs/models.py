@@ -2,6 +2,13 @@ from django.db import models
 from django.core.validators import MinLengthValidator, EmailValidator
 
 # Create your models here.
+class Banner(models.Model):
+    title = models.CharField(max_length=50)
+    subtitle = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return self.title
+    
 class Tag(models.Model):
     caption = models.CharField(max_length=20)
 
@@ -25,6 +32,7 @@ class Post(models.Model):
     content = models.TextField(validators=[MinLengthValidator(10)])
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name="posts", null=True)
     tags = models.ManyToManyField(Tag)
+    view_count = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self) -> str:
         return self.title

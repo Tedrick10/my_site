@@ -1,28 +1,29 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Comment
+from .models import Post, Banner
 from .forms import CommentForm
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.views import View
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 # Create your views here.
 
-# def index(request):
-#     latest_posts = Post.objects.all().order_by("-date")
-#     comments = Comment.objects.all()
-#     return render(request, "blogs/index.html", { "posts": latest_posts, "comments": comments })
+def index(request):
+    banner = Banner.objects.all()[0]
+    latest_posts = Post.objects.all().order_by("-date")[:6]
+    most_viewed_posts = Post.objects.all().order_by("-view_count")[:6]
+    return render(request, "blogs/index.html", { "banner": banner, "latest_posts": latest_posts, "most_viewed_posts": most_viewed_posts})
 
-class IndexView(ListView):
-    template_name = "blogs/index.html"
-    model = Post
-    ordering = ["-date"]
-    context_object_name = "posts"
+# class IndexView(ListView):
+#     template_name = "blogs/index.html"
+#     model = Post
+#     ordering = ["-date"]
+#     context_object_name = "posts"
 
-    def get_queryset(self):
-        query = super().get_queryset()
-        data = query[:6]
-        return data
+#     def get_queryset(self):
+#         query = super().get_queryset()
+#         data = query[:6]
+#         return data
     
 
 # def posts(request):
@@ -53,6 +54,8 @@ class PostDetailsView(View):
 
     def get(self, request, slug):
         post = Post.objects.get(slug=slug)
+        post.view_count = post.view_count + 1
+        post.save()
 
         context = {
             "post": post,
