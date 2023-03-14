@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Banner
 from .forms import CommentForm
 from django.views.generic import ListView
@@ -26,15 +26,28 @@ def index(request):
 #         return data
     
 
-# def posts(request):
-#     all_posts = Post.objects.all().order_by("-date")
-#     return render(request, "blogs/all-posts.html", { "posts": all_posts })
+def posts(request):
+    all_posts = []
+    if(request.method == "POST") :
+        keyword = request.POST["keyword"]
+        url = "posts?keyword={}".format(keyword)
+        return HttpResponseRedirect(url)
+    else:
+        if "keyword" in request.GET:
+            print("It does")
+            keyword = request.GET["keyword"]
+            all_posts = Post.objects.filter(title__icontains=keyword) | Post.objects.filter(view_count__icontains=keyword)  |  Post.objects.filter(content__icontains=keyword)
+        else:
+            print("It doesn't")
+            all_posts = Post.objects.all().order_by("-date")
+        return render(request, "blogs/all-posts.html", { "posts": all_posts })
 
-class PostsView(ListView):
-    template_name = "blogs/all-posts.html"
-    context_object_name = "posts"
-    model = Post
-    ordering = ["-date"]
+# class PostsView(ListView):
+#     template_name = "blogs/all-posts.html"
+#     context_object_name = "posts"
+#     model = Post
+#     ordering = ["-date"]
+
 
 
 # def post_details(request, slug):

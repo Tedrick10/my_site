@@ -10,7 +10,40 @@
 {% endblock css_file %}
 
 {% block content %}
+
     <section>
+        
+        <div class="callout large primary">
+            <div class="row column text-center">
+                <form method="POST" action="{% url 'posts' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="medium-9 columns">
+                            <input type="search" placeholder="Search the post" name="keyword" style="height: 4rem; font-size: 1.5rem; "> 
+                        </div>
+                        <div class="medium-3 columns">
+                            <button type="submit" class="submit button expanded post-button" style="height: 4rem; text-align: center;">
+                                <p style="color: white; font-size: 1.5rem; text-align: center;">Search</p>
+                            </button>
+                        </div>
+                      </div>
+                    {% comment %} <div class="row small-up-1 medium-up-1">
+                        <div class="row small-up-1 medium-up-1 large-up-2">
+                            <div class="large-10 column">
+                                <input type="search" placeholder="Search the post" name="filter" style="height: 3rem;"> 
+                            </div>
+                            <div class="large-2 column">
+                                <button type="submit" class="submit button expanded post-button" style="height: 3rem;">
+                                    <p style="color: white;">Search</p>
+                                </button>
+                            </div>
+                        </div>
+                        
+                      </div> {% endcomment %}
+                </form>
+                    {% comment %} <input type="search" placeholder="Search the post">     {% endcomment %}
+            </div>
+        </div>
         <div class="card large">
             <div class="row column text-center">
                 <p class="page-title">My Collections</p>

@@ -37,6 +37,20 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.title
 
+class FilteredPost(models.Model):
+    title = models.CharField(max_length=150)
+    excerpt = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="posts", null=True)
+    date = models.DateField(auto_now=True)
+    slug = models.SlugField(unique=True, db_index=True)
+    content = models.TextField(validators=[MinLengthValidator(10)])
+    author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name="filtered_posts", null=True)
+    tags = models.ManyToManyField(Tag)
+    view_count = models.IntegerField(default=0, null=False, blank=False)
+
+    def __str__(self) -> str:
+        return self.title
+    
 class Comment(models.Model):
     user_name = models.CharField(max_length=120)
     user_email = models.EmailField()
